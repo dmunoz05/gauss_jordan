@@ -1,22 +1,100 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@material-ui/core';
 import './App.css';
 
+
 function App() {
-    const [matrix, setMatrix] = useState([[1, 2, 3], [4, 5, 6], [7, 8, 9]]); // Ejemplo de matriz inicial
-    const [size, setSize] = useState(3); // Tamaño de la matriz
-    const [count, setCount] = useState(1); // Cantidad de matrices
-    const [matrices, setMatrices] = useState([]); // Matrices a resolver
-    const [results, setResults] = useState([]); // Resultados de las matrices resueltas
 
-    const handleSolve = () => {
+    const [table, setTable] = useState(false);
+    const [rows, setRows] = useState(2);
+    const [cols, setCols] = useState(2);
+    const [matrix, setMatrix] = useState(
+        Array.from({ length: rows }, () => Array.from({ length: cols }, () => 0))
+    );
 
-        // Aquí puedes implementar la lógica del método de Gauss-Jordan para resolver la matriz.
-        // Puedes utilizar la lógica que te proporcioné anteriormente en una función separada.
-        // Actualiza la matriz actualizada en el estado utilizando setMatrix.
+    const [newMatriz, setNewMatriz] = useState(
+
+    );
+
+    // function updatedColumns(event) {
+    //     event.preventDefault();
+    //     const newMatrix = [];
+    //     for (let i = 0; i < rows; i++) {
+    //         const row = [];
+    //         for (let j = 0; j < cols; j++) {
+    //             const value = parseFloat(event.target[`element-${i}-${j}`].value);
+    //             row.push(value);
+    //         }
+    //         newMatrix.push(row);
+    //     }
+    //     setMatrix(newMatrix);
+    // }
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        const form = event.target;
+        const newMatrix = [];
+        for (let i = 0; i < matrix.length; i++) {
+            const row = [];
+            for (let j = 0; j < matrix[i].length; j++) {
+                const inputValue = parseFloat(document.getElementById(`input-${i}-${j}`).value);
+                row.push(inputValue);
+            }
+            newMatrix.push(row);
+        }
+        gaussJordan(newMatrix);
     }
 
+
+    // function handleSubmit(event) {
+    //     debugger;
+    //     event.preventDefault();
+    //     const form = event.target;
+    //     const newMatrix = [];
+    //     for (let i = 0; i < matrix.length; i++) {
+    //         const row = [];
+    //         for (let j = 0; j < matrix[i].length; j++) {
+    //             const inputName = `element-${i}-${j}`;
+    //             const inputValue = parseFloat(`document.getElementById('input-${i}-${j}').value`);
+    //             // const inputValue = parseFloat(form.elements[inputName].value);
+    //             row.push(inputValue);
+    //         }
+    //         newMatrix.push(row);
+    //     }
+    //     gaussJordan(newMatrix);
+    // }
+
+    function handleRowsChange(event) {
+        setRows(parseInt(event.target.value));
+        const numRows = parseInt(event.target.value);
+        const newMatrix = [];
+        for (let i = 0; i < numRows; i++) {
+            const row = [];
+            for (let j = 0; j < matrix[0].length; j++) {
+                row.push(0);
+            }
+            newMatrix.push(row);
+        }
+        setMatrix(newMatrix);
+    }
+
+    function handleColsChange(event) {
+        setCols(parseInt(event.target.value));
+        const numCols = parseInt(event.target.value);
+        const newMatrix = [];
+        for (let i = 0; i < matrix.length; i++) {
+            const row = [];
+            for (let j = 0; j < numCols; j++) {
+                row.push(0);
+            }
+            newMatrix.push(row);
+        }
+        setMatrix(newMatrix);
+    }
+
+
     function gaussJordan(matrix) {
+        debugger;
         let n = matrix.length;
         let m = matrix[0].length;
 
@@ -50,106 +128,142 @@ function App() {
                 }
             }
         }
-
-        return matrix;
+        console.log(matrix);
+        setNewMatriz(matrix)
+        setTable(true);
+        // return matrix;
     }
 
-    // Función que se ejecuta cuando el usuario hace clic en "Generar"
-    function handleGenerate() {
-        let newMatrices = [];
-        let newResults = [];
+    // // Función que se ejecuta cuando el usuario hace clic en "Generar"
+    // function handleGenerate() {
+    //     debugger;
+    //     let newMatrices = [];
+    //     let newResults = [];
 
-        // Genera las matrices y resuelve cada una con el método de Gauss-Jordan
-        for (let i = 0; i < count; i++) {
-            let matrix = [];
-            for (let j = 0; j < size; j++) {
-                let row = [];
-                for (let k = 0; k < size + 1; k++) {
-                    row.push(Math.floor(Math.random() * 10)); // Genera un número aleatorio del 0 al 9
-                }
-                matrix.push(row);
-            }
-            newMatrices.push(matrix);
-            newResults.push(gaussJordan(matrix));
-        }
+    //     // Genera las matrices y resuelve cada una con el método de Gauss-Jordan
+    //     for (let i = 0; i < count; i++) {
+    //         let matrix = [];
+    //         for (let j = 0; j < size; j++) {
+    //             let row = [];
+    //             for (let k = 0; k < size * 1; k++) {
+    //                 row.push(Math.floor(Math.random() * 10)); // Genera un número aleatorio del 0 al 9
+    //             }
+    //             matrix.push(row);
+    //         }
+    //         newMatrices.push(matrix);
+    //         newResults.push(gaussJordan(matrix));
+    //     }
 
-        // Actualiza el estado de las matrices y los resultados
-        setMatrices(newMatrices);
-        setResults(newResults);
-    }
+    //     // Actualiza el estado de las matrices y los resultados
+    //     setMatrices(newMatrices);
+    //     setResults(newResults);
+    // }
 
+    // useEffect(() => {
 
+    // }, []);
+
+    // function random(min, max) {
+    //     var aleatorio = Math.floor((Math.random() * (max - min + 1)) + min);
+    // }
+
+    // const [rows, setRows] = useState();
+    // function handleRowsChange(event) {
+    //     setRows(parseInt(event.target.value));
+    // }
+
+    // const [cols, setCols] = useState();
+    // function handleColsChange(event) {
+    //     setCols(parseInt(event.target.value));
+    // }
 
     return (
         <div className='div-principal'>
             <div className='div-table'>
-                <section className='section-select'>
-                    <label className='label-select' > Seleccione la cantidad de Columnas </label>
-                    &nbsp;
-                    &nbsp;
-                    <select className='select-columns'>
-                        <option> </option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5   </option>
-                    </select>
-                </section>
+                <form onSubmit={handleSubmit}>
+                    <section className='section-select'>
 
-                <table className='gauss-jordan-table'>
-                    <tr>
-                        {matrix[0].map((_, index) => (
-                            <td key={index}>Columna {index + 1}</td>
-                        ))}
-                    </tr>
-                    <tr>
-                        {matrix.map((row, rowIndex) => (
-                            <td key={rowIndex}>
-                                {row.map((value, columnIndex) => (
-                                    <div key={columnIndex}>{value}</div>
-                                ))}
-                            </td>
-                        ))}
-                    </tr>
-                </table>
-                <br />
+                        <label className='label-select' > Seleccione la cantidad de: </label>
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        <label>
+                            Filas:
+                            &nbsp;
+                            <input className='select-columns' type="number" value={rows} onChange={handleRowsChange} />
+                        </label>
+
+                        &nbsp;
+                        &nbsp;
+
+                        <label>
+                            Columnas:
+                            &nbsp;
+                            <input className='select-columns' type="number" value={cols} onChange={handleColsChange} />
+                        </label>
+
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        {/* <button className='btn-aceptar' type='submit' onClick={handleAccept}> Aceptar </button> */}
+                    </section>
+
+                    <table className='gauss-jordan-table'>
+                        <tbody className='tbody'>
+                            {matrix.map((row, i) => (
+                                <tr className='tr-input' key={i}>
+                                    {row.map((cell, j) => (
+                                        <td className='td-input' key={`${i}-${j}`}>
+                                            <input id={`input-${i}-${j}`} className='input' type="number" name={`element-${i}-${j}`} defaultValue={cell} />
+                                        </td>
+                                    ))}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+
+                    <br />
+                    <div className='div-btn'>
+                        <button className='btn-resolver' onClick={handleSubmit}>Resolver</button>
+                    </div>
+
+                </form>
+
                 <div className='div-btn'>
-                    <button className='btn-resolver' onClick={handleSolve}>Resolver</button>
+                    {/* <button className='btn-resolver' onClick={handleGenerate}>Generar Matriz</button> */}
                 </div>
-                
-                <br/>
-                <br/>
-                <hr/>
-                <br/>
-                <br/>
 
-                <section className='section-select'>
-                    <label className='label-select'> Solución </label>                    
-                </section>
-                <table className='gauss-jordan-table'>
-                    <tr>
-                        {matrix[0].map((_, index) => (
-                            <td key={index}>Columna {index + 1}</td>
-                        ))}
-                    </tr>
-                    <tr>
-                        {matrix.map((row, rowIndex) => (
-                            <td key={rowIndex}>
-                                {row.map((value, columnIndex) => (
-                                    <div key={columnIndex}>{value}</div>
+                {table && (
+                    <div>
+                        <br />
+                        <br />
+                        <hr />
+                        <br />
+                        <br />
+                        <section className='section-select'>
+                            <label className='label-select'> Solución </label>
+                        </section>
+
+
+                        <table className='gauss-jordan-table'>
+                            <tbody className='tbody'>
+                                {newMatriz.map((row, i) => (
+                                    <tr className='tr-input' key={i}>
+                                        {row.map((cell, j) => (
+                                            <td className='td-input' key={`${i}-${j}`}>
+                                                <input id={`input-${i}-${j}`} className='input' type="number" name={`element-${i}-${j}`} defaultValue={cell} />
+                                            </td>
+                                        ))}
+                                    </tr>
                                 ))}
-                            </td>
-                        ))}
-                    </tr>
-                </table>
-
+                            </tbody>
+                        </table>
+                    </div>
+                )}
 
             </div>
-
         </div>
-
-
     );
 }
 export { App };

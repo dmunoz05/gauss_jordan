@@ -14,12 +14,12 @@ root.render(
       </div>
     </header>
     <App />
-    <footer className="footer">
+    {/* <footer className="footer">
       <div className="div-footer">
         <h1 className='h1-footer'>
           Daniel Muñoz Holguin © 2023. All rights reserved.
         </h1>
       </div>
-    </footer>
+    </footer> */}
   </>
 ); 

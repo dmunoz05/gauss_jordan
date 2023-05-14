@@ -15,16 +15,15 @@
 }
 
 table {
-
   width: inherit;
   height: fit-content;
 }
 
-.gauss-jordan-table {
+.gauss-jordan-table {  
   position: relative;
   border: solid 2px black;
-  width: 100%;
-  height: inherit;
+  width: 100%;  
+  height: auto;
   display: inline-table;
   border-radius: 37px;
 }
@@ -64,10 +63,44 @@ tr {
 .select-columns {
   font-size: 1rem;
   border-radius: 5px;
-  width: 40px;
+  width: 3rem;
 }
 
 .label-select{
   font-size: 1.5rem;
   font-weight: 500;
+}
+
+.btn-aceptar{
+  padding: 4px;
+  border-radius: 15px;
+  border: solid black 1px;
+  background-color: white;
+  color: black;
+  font-size: 12px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  width: 6rem;
+}
+
+.btn-aceptar:hover{
+  border: solid white 1px;
+  background-color: black;
+  color: white;
+}
+
+.input{
+  width: 5rem;
+  font-size: 1.2rem;
+  text-align: center;
+  border: none;
+  background-color: transparent;
+}
+
+.td-input{  
+  text-align: center;
+}
+
+.tr-input{  
+  border: none;
+  width: 10px;
 }
