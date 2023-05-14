@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-// import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@material-ui/core';
 import './App.css';
 
 
 function App() {
 
     const [show, setShow] = useState(false);
+    const [clear, setClear] = useState(false);
+    const [generated, setGenerated] = useState(false);
     const [table, setTable] = useState(false);
     const [rows, setRows] = useState(2);
     const [cols, setCols] = useState(2);
@@ -99,6 +100,7 @@ function App() {
 
         setNewMatriz(matriz);
         setTable(true);
+        setGenerated(false)
     }
 
 
@@ -118,11 +120,27 @@ function App() {
             }
             // Actualiza el estado de las matrices y los resultados
             setMatrix(matrix_new);
-            gaussJordan(matrix_new);
+            setGenerated(true);            
         }
     }
 
+    function clearData() {
+        let empty = [];
+        setMatrix(Array.from({ length: rows }, () => Array.from({ length: cols }, () => 0)));
+        setNewMatriz(empty);
+        setClear(false);
+    }
 
+
+    useEffect(() => {
+        debugger;
+        if(clear){
+            clearData();
+        }        
+        if(generated){
+            gaussJordan(matrix);
+        }
+    }, [generated, clear]);
 
 
     return (
@@ -164,23 +182,27 @@ function App() {
                         </tbody>
                     </table>
 
-                    {show && (<>
-                        <div className='div-btn'>
-                            <button className='btn-resolver' onClick={handleSubmit}>Resolver</button>
+                    {show && (
+                        <div className='div-principal-btns'>
+
+                            <div className='div-btn'>
+                                <button className='btn-resolver' onClick={handleGenerate}>Generar</button>
+                            </div>
+
+                            <br />
+
+                            <div className='div-btn'>
+                                <button className='btn-resolver' onClick={handleSubmit}>Resolver</button>
+                            </div>
+
+                            <br />
+
+                            <div className='div-btn'>
+                                <button className='btn-resolver' onClick={() => setClear(true)}>Limpiar</button>
+                            </div>
                         </div>
-
-                        <br />
-
-                        <div className='div-btn'>
-                            <button className='btn-resolver' onClick={handleGenerate}>Generar Matriz</button>
-                        </div>
-                    </>)}
-
-
-
+                    )}
                 </form>
-
-
 
                 {table && (
                     <div>

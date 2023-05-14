@@ -42,7 +42,7 @@ tr {
 .btn-resolver {
   padding: 10px;
   border-radius: 20px;
-  border: transparent;
+  border: solid 1px black;
   background-color: black;
   color: white;
   font-size: 14px;
@@ -50,11 +50,11 @@ tr {
   width: 8rem;
 }
 
-.btn-resolver:hover{
+.btn-resolver:hover{  
+  width: 8rem;
   border: solid black 1px;
   background-color: white;
   color: black;
-  transform: scale(1.1);
 }
 
 .section-select {
@@ -105,8 +105,11 @@ tr {
   width: 10px;
 }
 
-
-
+.div-principal-btns{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
 
 @media (max-width: 700px) {
