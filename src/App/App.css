@@ -6,7 +6,6 @@
   margin-top: 40px;
   margin-bottom: 140px;
   position: relative;
-  min-height: 100vh;
 }
 
 .div-table {
@@ -19,13 +18,14 @@ table {
   height: fit-content;
 }
 
-.gauss-jordan-table {  
+.gauss-jordan-table {
   position: relative;
   border: solid 2px black;
-  width: 100%;  
+  width: 100%;
   height: auto;
   display: inline-table;
   border-radius: 37px;
+  margin-bottom: 10px;
 }
 
 tr {
@@ -41,13 +41,20 @@ tr {
 
 .btn-resolver {
   padding: 10px;
-  border-radius: 15px;
+  border-radius: 20px;
   border: transparent;
   background-color: black;
   color: white;
   font-size: 14px;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   width: 8rem;
+}
+
+.btn-resolver:hover{
+  border: solid black 1px;
+  background-color: white;
+  color: black;
+  transform: scale(1.1);
 }
 
 .section-select {
@@ -66,29 +73,22 @@ tr {
   width: 3rem;
 }
 
-.label-select{
+.label-select {
   font-size: 1.5rem;
   font-weight: 500;
 }
 
-.btn-aceptar{
-  padding: 4px;
-  border-radius: 15px;
-  border: solid black 1px;
-  background-color: white;
-  color: black;
-  font-size: 12px;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  width: 6rem;
+.label-select-f {
+  font-size: 1rem;
+  font-weight: 500;
 }
 
-.btn-aceptar:hover{
-  border: solid white 1px;
-  background-color: black;
-  color: white;
+.label-select-f {
+  font-size: 1rem;
+  font-weight: 500;
 }
 
-.input{
+.input {
   width: 5rem;
   font-size: 1.2rem;
   text-align: center;
@@ -96,11 +96,46 @@ tr {
   background-color: transparent;
 }
 
-.td-input{  
+.td-input {
   text-align: center;
 }
 
-.tr-input{  
+.tr-input {
   border: none;
   width: 10px;
+}
+
+
+
+
+
+@media (max-width: 700px) {
+  .label-select {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .label-select-f {
+    font-size: 13px;
+  }
+
+  .label-select-c {
+    font-size: 13px;
+  }
+
+  .input {
+    width: 3rem;
+    font-size: 1rem;
+    text-align: center;
+    border: none;
+    background-color: transparent;
+  }
+
+  .btn-resolver {
+    padding: 7px;
+    border-radius: 15px;    
+    font-size: 13px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    width: 6rem;
+  }
 }

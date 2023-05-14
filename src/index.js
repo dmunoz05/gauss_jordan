@@ -8,18 +8,11 @@ root.render(
   <>
     <header className="header">
       <div className="div-header">
-        <h1 className='h1-header'>
+        <p className='p-header'>
           Metodo Gauss Jordan - Algebra Líneal
-        </h1>
+        </p>
       </div>
     </header>
     <App />
-    {/* <footer className="footer">
-      <div className="div-footer">
-        <h1 className='h1-footer'>
-          Daniel Muñoz Holguin © 2023. All rights reserved.
-        </h1>
-      </div>
-    </footer> */}
   </>
 ); 

@@ -5,34 +5,17 @@ import './App.css';
 
 function App() {
 
+    const [show, setShow] = useState(false);
     const [table, setTable] = useState(false);
     const [rows, setRows] = useState(2);
     const [cols, setCols] = useState(2);
+    const [newMatriz, setNewMatriz] = useState();
     const [matrix, setMatrix] = useState(
         Array.from({ length: rows }, () => Array.from({ length: cols }, () => 0))
     );
 
-    const [newMatriz, setNewMatriz] = useState(
-
-    );
-
-    // function updatedColumns(event) {
-    //     event.preventDefault();
-    //     const newMatrix = [];
-    //     for (let i = 0; i < rows; i++) {
-    //         const row = [];
-    //         for (let j = 0; j < cols; j++) {
-    //             const value = parseFloat(event.target[`element-${i}-${j}`].value);
-    //             row.push(value);
-    //         }
-    //         newMatrix.push(row);
-    //     }
-    //     setMatrix(newMatrix);
-    // }
-
     function handleSubmit(event) {
         event.preventDefault();
-        const form = event.target;
         const newMatrix = [];
         for (let i = 0; i < matrix.length; i++) {
             const row = [];
@@ -45,26 +28,8 @@ function App() {
         gaussJordan(newMatrix);
     }
 
-
-    // function handleSubmit(event) {
-    //     debugger;
-    //     event.preventDefault();
-    //     const form = event.target;
-    //     const newMatrix = [];
-    //     for (let i = 0; i < matrix.length; i++) {
-    //         const row = [];
-    //         for (let j = 0; j < matrix[i].length; j++) {
-    //             const inputName = `element-${i}-${j}`;
-    //             const inputValue = parseFloat(`document.getElementById('input-${i}-${j}').value`);
-    //             // const inputValue = parseFloat(form.elements[inputName].value);
-    //             row.push(inputValue);
-    //         }
-    //         newMatrix.push(row);
-    //     }
-    //     gaussJordan(newMatrix);
-    // }
-
     function handleRowsChange(event) {
+        setShow(true);
         setRows(parseInt(event.target.value));
         const numRows = parseInt(event.target.value);
         const newMatrix = [];
@@ -79,6 +44,7 @@ function App() {
     }
 
     function handleColsChange(event) {
+        setShow(true);
         setCols(parseInt(event.target.value));
         const numCols = parseInt(event.target.value);
         const newMatrix = [];
@@ -93,89 +59,71 @@ function App() {
     }
 
 
-    function gaussJordan(matrix) {
+    function gaussJordan(matriz) {
         debugger;
-        let n = matrix.length;
-        let m = matrix[0].length;
+        let n = matriz.length;
+        let m = matriz[0].length;
+
+        console.log(matrix);
 
         for (let i = 0; i < n; i++) {
             // Encuentra la fila con el valor absoluto más grande en la columna i
             let maxRow = i;
             for (let j = i + 1; j < n; j++) {
-                if (Math.abs(matrix[j][i]) > Math.abs(matrix[maxRow][i])) {
+                if (Math.abs(matriz[j][i]) > Math.abs(matriz[maxRow][i])) {
                     maxRow = j;
                 }
             }
 
             // Intercambia la fila con el valor absoluto más grande con la fila actual (i)
-            let tmp = matrix[i];
-            matrix[i] = matrix[maxRow];
-            matrix[maxRow] = tmp;
+            let tmp = matriz[i];
+            matriz[i] = matriz[maxRow];
+            matriz[maxRow] = tmp;
 
             // Divide la fila actual (i) por el valor en la columna i
-            let divisor = matrix[i][i];
+            let divisor = matriz[i][i];
             for (let j = i; j < m; j++) {
-                matrix[i][j] /= divisor;
+                matriz[i][j] /= divisor;
             }
 
             // Resta la fila actual (i) multiplicada por el valor en la columna i de cada otra fila
             for (let j = 0; j < n; j++) {
                 if (j !== i) {
-                    let factor = matrix[j][i];
+                    let factor = matriz[j][i];
                     for (let k = i; k < m; k++) {
-                        matrix[j][k] -= factor * matrix[i][k];
+                        matriz[j][k] -= factor * matriz[i][k];
                     }
                 }
             }
         }
-        console.log(matrix);
-        setNewMatriz(matrix)
+
+        setNewMatriz(matriz);
         setTable(true);
-        // return matrix;
     }
 
-    // // Función que se ejecuta cuando el usuario hace clic en "Generar"
-    // function handleGenerate() {
-    //     debugger;
-    //     let newMatrices = [];
-    //     let newResults = [];
 
-    //     // Genera las matrices y resuelve cada una con el método de Gauss-Jordan
-    //     for (let i = 0; i < count; i++) {
-    //         let matrix = [];
-    //         for (let j = 0; j < size; j++) {
-    //             let row = [];
-    //             for (let k = 0; k < size * 1; k++) {
-    //                 row.push(Math.floor(Math.random() * 10)); // Genera un número aleatorio del 0 al 9
-    //             }
-    //             matrix.push(row);
-    //         }
-    //         newMatrices.push(matrix);
-    //         newResults.push(gaussJordan(matrix));
-    //     }
+    // Función que se ejecuta cuando el usuario hace clic en "Generar"
+    function handleGenerate() {
+        let count = 1;
 
-    //     // Actualiza el estado de las matrices y los resultados
-    //     setMatrices(newMatrices);
-    //     setResults(newResults);
-    // }
+        // Genera las matrices y resuelve cada una con el método de Gauss-Jordan
+        for (let i = 0; i < count; i++) {
+            let matrix_new = [];
+            for (let j = 0; j < rows; j++) {
+                let row = [];
+                for (let k = 0; k < cols; k++) {
+                    row.push(Math.floor(Math.random() * 10)); // Genera un número aleatorio del 0 al 9
+                }
+                matrix_new.push(row);
+            }
+            // Actualiza el estado de las matrices y los resultados
+            setMatrix(matrix_new);
+            gaussJordan(matrix_new);
+        }
+    }
 
-    // useEffect(() => {
 
-    // }, []);
 
-    // function random(min, max) {
-    //     var aleatorio = Math.floor((Math.random() * (max - min + 1)) + min);
-    // }
-
-    // const [rows, setRows] = useState();
-    // function handleRowsChange(event) {
-    //     setRows(parseInt(event.target.value));
-    // }
-
-    // const [cols, setCols] = useState();
-    // function handleColsChange(event) {
-    //     setCols(parseInt(event.target.value));
-    // }
 
     return (
         <div className='div-principal'>
@@ -186,8 +134,7 @@ function App() {
                         <label className='label-select' > Seleccione la cantidad de: </label>
                         &nbsp;
                         &nbsp;
-                        &nbsp;
-                        <label>
+                        <label className='label-select-f'>
                             Filas:
                             &nbsp;
                             <input className='select-columns' type="number" value={rows} onChange={handleRowsChange} />
@@ -196,17 +143,11 @@ function App() {
                         &nbsp;
                         &nbsp;
 
-                        <label>
+                        <label className='label-select-c'>
                             Columnas:
                             &nbsp;
                             <input className='select-columns' type="number" value={cols} onChange={handleColsChange} />
                         </label>
-
-                        &nbsp;
-                        &nbsp;
-                        &nbsp;
-                        &nbsp;
-                        {/* <button className='btn-aceptar' type='submit' onClick={handleAccept}> Aceptar </button> */}
                     </section>
 
                     <table className='gauss-jordan-table'>
@@ -223,16 +164,23 @@ function App() {
                         </tbody>
                     </table>
 
-                    <br />
-                    <div className='div-btn'>
-                        <button className='btn-resolver' onClick={handleSubmit}>Resolver</button>
-                    </div>
+                    {show && (<>
+                        <div className='div-btn'>
+                            <button className='btn-resolver' onClick={handleSubmit}>Resolver</button>
+                        </div>
+
+                        <br />
+
+                        <div className='div-btn'>
+                            <button className='btn-resolver' onClick={handleGenerate}>Generar Matriz</button>
+                        </div>
+                    </>)}
+
+
 
                 </form>
 
-                <div className='div-btn'>
-                    {/* <button className='btn-resolver' onClick={handleGenerate}>Generar Matriz</button> */}
-                </div>
+
 
                 {table && (
                     <div>
