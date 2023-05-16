@@ -4,12 +4,15 @@ import './App.css';
 
 function App() {
 
+    const [table1, setTable1] = useState(false);
+    const [table2, setTable2] = useState(false);
     const [show, setShow] = useState(false);
     const [clear, setClear] = useState(false);
+    const [showClear, setShowClear] = useState(false);
     const [generated, setGenerated] = useState(false);
-    const [table, setTable] = useState(false);
-    const [rows, setRows] = useState(2);
-    const [cols, setCols] = useState(2);
+    const [solution, setSolution] = useState(false);
+    const [rows, setRows] = useState(1);
+    const [cols, setCols] = useState(1);
     const [newMatriz, setNewMatriz] = useState();
     const [matrix, setMatrix] = useState(
         Array.from({ length: rows }, () => Array.from({ length: cols }, () => 0))
@@ -42,6 +45,7 @@ function App() {
             newMatrix.push(row);
         }
         setMatrix(newMatrix);
+        setTable1(false);
     }
 
     function handleColsChange(event) {
@@ -57,60 +61,60 @@ function App() {
             newMatrix.push(row);
         }
         setMatrix(newMatrix);
+        setTable1(false);
     }
 
 
-    function gaussJordan(matriz) {
-        debugger;
-        let n = matriz.length;
-        let m = matriz[0].length;
-
-        console.log(matrix);
+    function gaussJordan(matrix) {
+        if (clear) return;
+        let n = matrix.length;
+        let m = matrix[0].length;
 
         for (let i = 0; i < n; i++) {
             // Encuentra la fila con el valor absoluto más grande en la columna i
             let maxRow = i;
             for (let j = i + 1; j < n; j++) {
-                if (Math.abs(matriz[j][i]) > Math.abs(matriz[maxRow][i])) {
+                if (Math.abs(matrix[j][i]) > Math.abs(matrix[maxRow][i])) {
                     maxRow = j;
                 }
             }
 
             // Intercambia la fila con el valor absoluto más grande con la fila actual (i)
-            let tmp = matriz[i];
-            matriz[i] = matriz[maxRow];
-            matriz[maxRow] = tmp;
+            let tmp = matrix[i];
+            matrix[i] = matrix[maxRow];
+            matrix[maxRow] = tmp;
 
             // Divide la fila actual (i) por el valor en la columna i
-            let divisor = matriz[i][i];
+            let divisor = matrix[i][i];
             for (let j = i; j < m; j++) {
-                matriz[i][j] /= divisor;
+                matrix[i][j] /= divisor;
             }
 
             // Resta la fila actual (i) multiplicada por el valor en la columna i de cada otra fila
             for (let j = 0; j < n; j++) {
                 if (j !== i) {
-                    let factor = matriz[j][i];
+                    let factor = matrix[j][i];
                     for (let k = i; k < m; k++) {
-                        matriz[j][k] -= factor * matriz[i][k];
+                        matrix[j][k] -= factor * matrix[i][k];
                     }
                 }
             }
         }
 
-        setNewMatriz(matriz);
-        setTable(true);
-        setGenerated(false)
+        setNewMatriz(matrix);
+        setSolution(true);
+        setGenerated(false);
+        setShowClear(true);
     }
 
 
     // Función que se ejecuta cuando el usuario hace clic en "Generar"
     function handleGenerate() {
         let count = 1;
+        const matrix_new = [];
 
         // Genera las matrices y resuelve cada una con el método de Gauss-Jordan
         for (let i = 0; i < count; i++) {
-            let matrix_new = [];
             for (let j = 0; j < rows; j++) {
                 let row = [];
                 for (let k = 0; k < cols; k++) {
@@ -118,28 +122,39 @@ function App() {
                 }
                 matrix_new.push(row);
             }
-            // Actualiza el estado de las matrices y los resultados
-            setMatrix(matrix_new);
-            setGenerated(true);            
+
         }
+        // Actualiza el estado de las matrices y los resultados          
+        setMatrix(matrix_new);
+        setTable1(true);
+        setTable2(true);
+        setSolution(false);
+        setGenerated(true);
+
     }
 
     function clearData() {
-        let empty = [];
+        setNewMatriz();
         setMatrix(Array.from({ length: rows }, () => Array.from({ length: cols }, () => 0)));
-        setNewMatriz(empty);
-        setClear(false);
+        setGenerated(false);
+        setTable2(false);
+        setTable1(true);
+        setShow(false);
+        setSolution(false);
+        setShowClear(false);
+        setRows(1);
+        setCols(1);
     }
 
 
     useEffect(() => {
-        debugger;
-        if(clear){
+        if (clear) {
             clearData();
-        }        
-        if(generated){
+        }
+        if (generated) {
             gaussJordan(matrix);
         }
+        setClear(false);
     }, [generated, clear]);
 
 
@@ -155,7 +170,7 @@ function App() {
                         <label className='label-select-f'>
                             Filas:
                             &nbsp;
-                            <input className='select-columns' type="number" value={rows} onChange={handleRowsChange} />
+                            <input className='select-columns' type="number" min={1} max={20} value={rows} onChange={handleRowsChange} />
                         </label>
 
                         &nbsp;
@@ -164,11 +179,11 @@ function App() {
                         <label className='label-select-c'>
                             Columnas:
                             &nbsp;
-                            <input className='select-columns' type="number" value={cols} onChange={handleColsChange} />
+                            <input className='select-columns' type="number" value={cols} min={1} max={13} onChange={handleColsChange} />
                         </label>
                     </section>
 
-                    <table className='gauss-jordan-table'>
+                    {!table1 && (<table className='gauss-jordan-table'>
                         <tbody className='tbody'>
                             {matrix.map((row, i) => (
                                 <tr className='tr-input' key={i}>
@@ -180,7 +195,21 @@ function App() {
                                 </tr>
                             ))}
                         </tbody>
-                    </table>
+                    </table>)}
+
+                    {table2 && (<table className='gauss-jordan-table'>
+                        <tbody className='tbody'>
+                            {matrix.map((row, i) => (
+                                <tr className='tr-input' key={i}>
+                                    {row.map((cell, j) => (
+                                        <td className='td-input' key={`${i}-${j}`}>
+                                            <input id={`input-${i}-${j}`} className='input' type="number" name={`element-${i}-${j}`} defaultValue={cell} />
+                                        </td>
+                                    ))}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>)}
 
                     {show && (
                         <div className='div-principal-btns'>
@@ -194,17 +223,11 @@ function App() {
                             <div className='div-btn'>
                                 <button className='btn-resolver' onClick={handleSubmit}>Resolver</button>
                             </div>
-
-                            <br />
-
-                            <div className='div-btn'>
-                                <button className='btn-resolver' onClick={() => setClear(true)}>Limpiar</button>
-                            </div>
                         </div>
                     )}
                 </form>
 
-                {table && (
+                {solution && (
                     <div>
                         <br />
                         <br />
@@ -222,13 +245,21 @@ function App() {
                                     <tr className='tr-input' key={i}>
                                         {row.map((cell, j) => (
                                             <td className='td-input' key={`${i}-${j}`}>
-                                                <input id={`input-${i}-${j}`} className='input' type="number" name={`element-${i}-${j}`} defaultValue={cell} />
+                                                <input id={`input-${i}-${j}`} className='input' type="number" name={`element-${i}-${j}`} defaultValue={cell} min={1} maxLength={2} />
                                             </td>
                                         ))}
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
+
+                        <br />
+
+                        {showClear && (<div className='div-btn'>
+                            <button className='btn-resolver' onClick={() => setClear(true)}>Limpiar</button>
+                        </div>)}
+
+                        <br/>
                     </div>
                 )}
 
