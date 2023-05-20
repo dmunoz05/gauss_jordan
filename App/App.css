@@ -1,0 +1,144 @@
+.div-principal {
+  display: flex;
+  justify-content: center;
+  margin-left: 90px;
+  margin-right: 90px;
+  margin-top: 40px;
+  margin-bottom: 140px;
+  position: relative;
+}
+
+.div-table {
+  width: 100%;
+  height: 10rem;
+}
+
+table {
+  width: inherit;
+  height: fit-content;
+}
+
+.gauss-jordan-table {
+  position: relative;
+  border: solid 2px black;
+  width: 100%;
+  height: auto;
+  display: inline-table;
+  border-radius: 37px;
+  margin-bottom: 10px;
+}
+
+tr {
+  text-align: center;
+}
+
+.div-btn {
+  position: relative;
+  top: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-resolver {
+  padding: 10px;
+  border-radius: 20px;
+  border: solid 1px black;
+  background-color: black;
+  color: white;
+  font-size: 14px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  width: 8rem;
+}
+
+.btn-resolver:hover{  
+  width: 8rem;
+  border: solid black 1px;
+  background-color: white;
+  color: black;
+}
+
+.section-select {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  bottom: 10px;
+  border-radius: 20px;
+  width: 100%;
+}
+
+.select-columns {
+  font-size: 1rem;
+  border-radius: 5px;
+  width: 3rem;
+}
+
+.label-select {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.label-select-f {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.label-select-f {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.input {
+  width: 5rem;
+  font-size: 1.2rem;
+  text-align: center;
+  border: none;
+  background-color: transparent;
+}
+
+.td-input {
+  text-align: center;
+}
+
+.tr-input {
+  border: none;
+  width: 10px;
+}
+
+.div-principal-btns{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+@media (max-width: 700px) {
+  .label-select {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .label-select-f {
+    font-size: 13px;
+  }
+
+  .label-select-c {
+    font-size: 13px;
+  }
+
+  .input {
+    width: 3rem;
+    font-size: 1rem;
+    text-align: center;
+    border: none;
+    background-color: transparent;
+  }
+
+  .btn-resolver {
+    padding: 7px;
+    border-radius: 15px;    
+    font-size: 13px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    width: 6rem;
+  }
+}
